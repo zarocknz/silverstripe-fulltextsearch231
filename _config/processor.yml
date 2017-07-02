@@ -1,0 +1,34 @@
+---
+Name: defaultprocessor
+---
+Injector:
+  SearchUpdateProcessor:
+    class: SearchUpdateImmediateProcessor
+  SolrReindexHandler:
+    class: SolrReindexImmediateHandler
+  SearchLogFactory:
+    class: 'MonologFactory'
+---
+Name: messagequeueprocessor
+Only:
+  ModuleExists: messagequeue
+Except:
+  Environment: 'dev'
+---
+Injector:
+  SearchUpdateProcessor:
+    class: SearchUpdateMessageQueueProcessor
+  SolrReindexHandler:
+    class: SolrReindexMessageHandler
+---
+Name: queuedjobprocessor
+Only:
+  ModuleExists: queuedjobs
+Except:
+  Environment: 'dev'
+---
+Injector:
+  SearchUpdateProcessor:
+    class: SearchUpdateQueuedJobProcessor
+  SolrReindexHandler:
+    class: SolrReindexQueuedHandler
